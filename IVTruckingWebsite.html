@@ -1,0 +1,809 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>International Visions LLC | Maryland Box Truck Freight & Logistics</title>
+  <meta name="description" content="International Visions LLC is a family-owned Maryland trucking company providing dependable general freight hauling, box truck transport, direct communication, and responsive logistics support across Maryland, the Mid-Atlantic, and long-haul lanes throughout the USA." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#08111b" />
+  <meta property="og:title" content="International Visions LLC | The Heartbeat of Shipping" />
+  <meta property="og:description" content="Professional family-owned freight hauling with responsive communication, reliable scheduling, and careful freight handling." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/hero-truck.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"MovingCompany",
+    "name":"International Visions LLC",
+    "email":"trucking@internationalvisionsllc.org",
+    "slogan":"The Heartbeat of Shipping",
+    "areaServed":["Maryland","Baltimore","Mid-Atlantic","United States"],
+    "description":"Family-owned trucking and logistics company providing general freight hauling with a 24ft box truck and active operating authority.",
+    "sameAs":[]
+  }
+  </script>
+  <style>
+    :root{
+      --bg:#08111b;
+      --bg-2:#0c1723;
+      --bg-3:#101f2f;
+      --panel:rgba(13,23,35,.72);
+      --panel-2:rgba(16,27,40,.88);
+      --line:rgba(255,255,255,.1);
+      --text:#f3f7fb;
+      --muted:#b2c0d0;
+      --steel:#d7dde4;
+      --steel-2:#8f9bad;
+      --gold:#b58a44;
+      --gold-2:#dbc17e;
+      --blue:#28a7ec;
+      --blue-2:#1277c8;
+      --blue-3:#60ceff;
+      --red:#f16674;
+      --shadow:0 30px 90px rgba(0,0,0,.38);
+      --radius:24px;
+      --max:1320px;
+      --nav-h:80px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(40,167,236,.12), transparent 24%),
+        radial-gradient(circle at 85% 10%, rgba(181,138,68,.14), transparent 20%),
+        linear-gradient(180deg, #071019 0%, #09131d 35%, #0a1420 65%, #08111b 100%);
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+      background-size:44px 44px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.95), rgba(0,0,0,.15));
+      opacity:.52;
+      z-index:0;
+    }
+    a{color:inherit;text-decoration:none}
+    img,video{display:block;max-width:100%}
+    button,input,textarea,select{font:inherit}
+    .container{width:min(calc(100% - 2rem), var(--max)); margin-inline:auto; position:relative; z-index:2}
+    .section{position:relative; z-index:2}
+
+    .topbar{
+      position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:100;
+      background:linear-gradient(180deg, rgba(5,10,16,.94), rgba(5,10,16,.68));
+      border-bottom:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(16px);
+    }
+    .topbar-inner{height:100%; display:flex; align-items:center; justify-content:space-between; gap:1rem}
+    .brand{display:flex; align-items:center; gap:.95rem; min-width:0}
+    .brand-mark{
+      width:54px; height:54px; border-radius:18px; display:grid; place-items:center;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.1);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+    }
+    .brand-text strong{display:block; font-size:.95rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .brand-text span{display:block; font-size:.76rem; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .nav-links{display:flex; align-items:center; gap:1rem}
+    .nav-links a{color:var(--muted); font-size:.93rem; transition:color .25s ease, transform .25s ease}
+    .nav-links a:hover{color:var(--text); transform:translateY(-1px)}
+    .nav-actions{display:flex; align-items:center; gap:.7rem}
+    .chip{
+      display:inline-flex; align-items:center; gap:.5rem; min-height:46px; padding:0 1rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:var(--steel);
+      font-size:.92rem
+    }
+    .menu-toggle{
+      display:none; width:46px; height:46px; border-radius:14px; cursor:pointer;
+      border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); color:var(--text)
+    }
+    .mobile-menu{
+      display:none; position:fixed; top:calc(var(--nav-h) + .5rem); left:1rem; right:1rem; z-index:99;
+      padding:1rem; border-radius:24px; background:rgba(6,11,18,.96); border:1px solid rgba(255,255,255,.1); box-shadow:var(--shadow)
+    }
+    .mobile-menu.show{display:block}
+    .mobile-menu a{display:block; padding:.95rem 1rem; border-radius:14px}
+    .mobile-menu a:hover{background:rgba(255,255,255,.05)}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+      min-height:52px; padding:0 1.15rem; border-radius:999px; border:1px solid transparent;
+      font-weight:800; letter-spacing:.02em; cursor:pointer;
+      transition:transform .32s ease, border-color .32s ease, background .32s ease, box-shadow .32s ease;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{color:#071017; background:linear-gradient(135deg, var(--gold-2), var(--gold)); box-shadow:0 18px 40px rgba(181,138,68,.28)}
+    .btn-secondary{color:var(--text); background:rgba(255,255,255,.04); border-color:rgba(255,255,255,.12)}
+
+    .hero{
+      min-height:100svh; position:relative; display:flex; align-items:center; padding-top:calc(var(--nav-h) + 2rem); overflow:clip
+    }
+    .hero-media,.hero-media::after{position:absolute; inset:0}
+    .hero-media{
+      background:
+        radial-gradient(circle at 62% 38%, transparent, rgba(4,7,11,.4) 58%),
+        linear-gradient(180deg, rgba(5,10,16,.18), rgba(5,10,16,.58) 58%, rgba(6,11,17,.92) 100%),
+        url('assets/hero-truck.jpg') center/cover no-repeat;
+      transform:scale(1.08)
+    }
+    .hero-media::after{content:""; background:linear-gradient(90deg, rgba(8,14,22,.84) 0%, rgba(8,14,22,.32) 50%, rgba(8,14,22,.62) 100%)}
+    .hero-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.24; mix-blend-mode:screen}
+    .hero-grid{position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr); gap:1.15rem; align-items:end; padding-bottom:4.5rem}
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:.7rem; padding:.66rem .95rem; border-radius:999px;
+      background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:var(--steel); letter-spacing:.15em; text-transform:uppercase; font-size:.8rem
+    }
+    .eyebrow .dot{width:10px; height:10px; border-radius:50%; background:var(--red); box-shadow:0 0 0 0 rgba(241,102,116,.6); animation:pulse 2s infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(241,102,116,.55)}75%{box-shadow:0 0 0 14px rgba(241,102,116,0)}100%{box-shadow:0 0 0 0 rgba(241,102,116,0)}}
+
+    h1,h2,h3,h4{font-family:"Space Grotesk", Inter, sans-serif}
+    h1{margin:1rem 0 .95rem; font-size:clamp(3.1rem, 8.7vw, 7rem); line-height:.92; letter-spacing:-.06em; text-transform:uppercase; max-width:11ch}
+    .lead{max-width:48rem; color:#d3dce8; line-height:1.72; font-size:clamp(1.03rem,1.6vw,1.16rem)}
+    .hero-actions{display:flex; flex-wrap:wrap; gap:.85rem; margin-top:1.4rem}
+    .hero-highlights{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.85rem; margin-top:2rem}
+    .stat-card{
+      padding:1rem 1rem 1.05rem; border-radius:20px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08)
+    }
+    .stat-card strong{display:block; font-size:1.12rem; margin-bottom:.25rem}
+    .stat-card span{font-size:.93rem; color:var(--muted)}
+
+    .hero-panel{
+      position:relative; overflow:hidden; padding:1.2rem; border-radius:28px;
+      background:linear-gradient(180deg, rgba(9,16,25,.8), rgba(9,16,25,.58)); border:1px solid rgba(255,255,255,.09); box-shadow:var(--shadow)
+    }
+    .hero-panel::before{content:""; position:absolute; inset:auto -16% -22% auto; width:260px; height:260px; background:radial-gradient(circle, rgba(40,167,236,.25), transparent 68%); filter:blur(12px)}
+    .panel-kicker,.kicker{display:inline-block; color:var(--gold-2); letter-spacing:.17em; text-transform:uppercase; font-size:.78rem}
+    .hero-row{display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; padding:1rem 0; border-bottom:1px solid rgba(255,255,255,.08)}
+    .hero-row:last-of-type{border-bottom:0}
+    .hero-row strong{display:block; font-size:1.4rem}
+    .hero-row span{color:var(--muted); font-size:.93rem}
+    .pill-list{display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1rem}
+    .pill{padding:.68rem .88rem; border-radius:999px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04); font-size:.88rem}
+
+    .mini-intro{padding:4rem 0 1rem}
+    .mini-intro h2{margin:.75rem 0 .75rem; font-size:clamp(2.2rem,5vw,4.1rem); line-height:.95; letter-spacing:-.05em; text-transform:uppercase; max-width:11ch}
+    .section-copy{max-width:60rem; color:#c8d4e2; line-height:1.78; font-size:1.03rem}
+
+    .journey-section{padding:0 0 4rem}
+    .journey-shell{width:min(calc(100% - 1rem), 1460px); margin:0 auto; position:relative}
+    .journey-stage{
+      position:sticky; top:calc(var(--nav-h) + .8rem); height:calc(100svh - var(--nav-h) - 1.2rem); border-radius:32px; overflow:hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+        radial-gradient(circle at 75% 8%, rgba(181,138,68,.12), transparent 22%),
+        radial-gradient(circle at 22% 40%, rgba(40,167,236,.12), transparent 26%),
+        rgba(9,15,23,.82);
+      border:1px solid rgba(255,255,255,.08); box-shadow:var(--shadow)
+    }
+    .journey-stage::before{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+      background-size:64px 64px; opacity:.5
+    }
+    .journey-canvas{position:absolute; inset:0; width:100%; height:100%}
+    .journey-card{
+      position:absolute; width:min(29rem, calc(100% - 2rem)); padding:1.2rem 1.2rem 1.15rem; border-radius:24px;
+      background:linear-gradient(180deg, rgba(10,17,26,.92), rgba(10,17,26,.76)); border:1px solid rgba(255,255,255,.1); box-shadow:0 18px 50px rgba(0,0,0,.25);
+      backdrop-filter:blur(8px); opacity:0; transform:translateY(36px) scale(.98)
+    }
+    .journey-card .num{display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%; margin-bottom:.85rem; background:rgba(40,167,236,.16); color:var(--blue-3); border:1px solid rgba(96,206,255,.34); font-weight:800}
+    .journey-card h3{margin:0 0 .55rem; font-size:1.55rem; letter-spacing:-.03em}
+    .journey-card p{margin:0; color:#c9d3e0; line-height:1.72; font-size:1rem}
+    .jc-1{left:5%; top:11%}
+    .jc-2{right:5%; top:28%}
+    .jc-3{left:8%; top:52%}
+    .jc-4{right:7%; top:72%}
+    .journey-spacer{height:340vh}
+
+    .services{padding:2rem 0 2rem}
+    .services-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-top:1.5rem}
+    .service-card{
+      padding:1.15rem; border-radius:22px; background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08);
+      min-height:220px; transition:transform .35s ease, border-color .35s ease, background .35s ease
+    }
+    .service-card:hover{transform:translateY(-4px); border-color:rgba(96,206,255,.24); background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025))}
+    .service-icon{width:54px; height:54px; border-radius:16px; display:grid; place-items:center; margin-bottom:1rem; background:rgba(40,167,236,.1); border:1px solid rgba(96,206,255,.22)}
+    .service-card h3{margin:0 0 .55rem; font-size:1.2rem}
+    .service-card p{margin:0; color:var(--muted); line-height:1.72; font-size:.97rem}
+
+    .map-section{padding:2rem 0 4rem}
+    .map-shell{width:min(calc(100% - 1rem), 1460px); margin:0 auto; position:relative}
+    .map-stage{
+      position:sticky; top:calc(var(--nav-h) + .8rem); height:calc(100svh - var(--nav-h) - 1.2rem); overflow:hidden; border-radius:32px;
+      background:
+        radial-gradient(circle at 14% 10%, rgba(181,138,68,.13), transparent 20%),
+        radial-gradient(circle at 82% 82%, rgba(40,167,236,.13), transparent 22%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
+        rgba(9,15,23,.84);
+      border:1px solid rgba(255,255,255,.08); box-shadow:var(--shadow)
+    }
+    .map-stage::before{
+      content:""; position:absolute; inset:0; background:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+      background-size:70px 70px; opacity:.45; pointer-events:none
+    }
+    .map-canvas{position:absolute; inset:0; width:100%; height:100%}
+    .map-overlay{position:absolute; inset:0; pointer-events:none}
+    .map-caption{
+      position:absolute; width:min(23rem, calc(100% - 2rem)); padding:1rem 1.05rem; border-radius:20px;
+      background:linear-gradient(180deg, rgba(10,17,26,.92), rgba(10,17,26,.76)); border:1px solid rgba(255,255,255,.09); box-shadow:0 18px 42px rgba(0,0,0,.24);
+      opacity:0; transform:translateY(26px)
+    }
+    .map-caption strong{display:block; margin-bottom:.3rem; font-size:1.06rem}
+    .map-caption span{display:block; color:#c7d2df; line-height:1.68; font-size:.95rem}
+    .mc-1{left:6%; top:18%}
+    .mc-2{right:7%; top:32%}
+    .mc-3{left:8%; bottom:14%}
+    .map-spacer{height:280vh}
+
+    .cta-band{padding:2rem 0 0}
+    .cta-card{
+      display:grid; grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr); gap:1rem; align-items:stretch;
+      padding:1.25rem; border-radius:30px; border:1px solid rgba(255,255,255,.09);
+      background:
+        radial-gradient(circle at 85% 15%, rgba(40,167,236,.14), transparent 22%),
+        radial-gradient(circle at 10% 80%, rgba(181,138,68,.12), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:var(--shadow)
+    }
+    .cta-copy h2{margin:.75rem 0 .8rem; font-size:clamp(2rem,4vw,3.4rem); line-height:.95; letter-spacing:-.05em; text-transform:uppercase}
+    .cta-copy p{margin:0; color:#cad6e4; line-height:1.76}
+    .form-wrap{padding:1rem; border-radius:24px; background:rgba(6,11,17,.7); border:1px solid rgba(255,255,255,.08)}
+    form{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.85rem}
+    .field{display:grid; gap:.45rem}
+    .field label{font-size:.83rem; letter-spacing:.05em; text-transform:uppercase; color:#ced9e6}
+    .field input,.field textarea,.field select{
+      width:100%; min-height:54px; padding:0 .95rem; border-radius:16px;
+      background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.1); color:var(--text); outline:none; transition:border-color .28s ease, background .28s ease, transform .28s ease
+    }
+    .field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(96,206,255,.44); background:rgba(255,255,255,.06); transform:translateY(-1px)}
+    .field textarea{min-height:128px; padding:.9rem .95rem; resize:vertical}
+    .field.full,.form-actions{grid-column:1/-1}
+    .form-note{color:var(--muted); font-size:.92rem; line-height:1.68; margin-top:.7rem}
+
+    footer{padding:4rem 0 2.2rem}
+    .footer-grid{display:grid; grid-template-columns:1.15fr .9fr .9fr .95fr; gap:1rem}
+    .footer-card,.footer-links,.footer-contact{
+      padding:1.15rem; border-radius:24px; background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08)
+    }
+    .footer-card p,.footer-links p,.footer-contact p{margin:.55rem 0 0; color:var(--muted); line-height:1.76}
+    .footer-title{margin:0; font-size:1.08rem; letter-spacing:.02em}
+    .footer-list{list-style:none; margin:.8rem 0 0; padding:0; display:grid; gap:.65rem}
+    .footer-list li{color:#cfdae7}
+    .footer-list a{color:#cfdae7}
+    .footer-list a:hover{color:var(--text)}
+    .footer-badges{display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1rem}
+    .footer-badge{padding:.6rem .8rem; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); font-size:.84rem; color:#d8e1ec}
+    .footer-bottom{display:flex; justify-content:space-between; align-items:center; gap:1rem; padding-top:1rem; margin-top:1rem; border-top:1px solid rgba(255,255,255,.08); color:var(--muted); font-size:.92rem}
+
+    .reveal{opacity:0; transform:translateY(28px)}
+
+    @media (max-width: 1120px){
+      .hero-grid,.cta-card,.footer-grid{grid-template-columns:1fr}
+      .services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .nav-links,.chip{display:none}
+      .menu-toggle{display:inline-grid; place-items:center}
+      .journey-card,.map-caption{width:min(25rem, calc(100% - 2rem))}
+      .jc-1{left:1rem; top:9%}
+      .jc-2{right:1rem; top:29%}
+      .jc-3{left:1rem; top:53%}
+      .jc-4{right:1rem; top:72%}
+    }
+    @media (max-width: 820px){
+      .hero-highlights{grid-template-columns:1fr}
+      .services-grid{grid-template-columns:1fr}
+      form{grid-template-columns:1fr}
+      .journey-stage,.map-stage{height:100svh; border-radius:26px}
+      .journey-card,.map-caption{left:1rem !important; right:1rem !important; width:auto}
+      .jc-1{top:8%}.jc-2{top:29%}.jc-3{top:52%}.jc-4{top:73%}
+      .mc-1{top:12%}.mc-2{top:34%}.mc-3{bottom:10%}
+      .footer-bottom{flex-direction:column; align-items:flex-start}
+    }
+    @media (max-width: 640px){
+      .container{width:min(calc(100% - 1.1rem), var(--max))}
+      .topbar{height:74px}
+      :root{--nav-h:74px}
+      h1{font-size:clamp(2.8rem, 16vw, 4.2rem)}
+      .hero{padding-top:calc(var(--nav-h) + 1.1rem)}
+      .hero-grid{padding-bottom:2.5rem}
+      .hero-actions{flex-direction:column; align-items:stretch}
+      .btn{width:100%}
+      .journey-spacer{height:360vh}
+      .map-spacer{height:300vh}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top" aria-label="International Visions LLC home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 34H16L22 24L29 42L36 14L43 38L48 30H59" stroke="url(#g1)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="g1" x1="5" y1="14" x2="59" y2="42" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#60CEFF"/>
+                <stop offset="1" stop-color="#1277C8"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>International Visions LLC</strong>
+          <span>The Heartbeat of Shipping</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#services">Services</a>
+        <a href="#coverage">Coverage</a>
+        <a href="#quote">Quote Request</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="chip" href="mailto:trucking@internationalvisionsllc.org">trucking@internationalvisionsllc.org</a>
+        <button class="menu-toggle" type="button" aria-label="Toggle menu">☰</button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#services">Services</a>
+      <a href="#coverage">Coverage</a>
+      <a href="#quote">Quote Request</a>
+      <a href="#contact">Contact</a>
+      <a href="mailto:trucking@internationalvisionsllc.org">Email Us</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="hero-media"></div>
+      <video class="hero-video" src="assets/hero-loader.mp4" autoplay muted playsinline loop preload="metadata"></video>
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow reveal"><span class="dot"></span> Maryland Freight • Family Owned • General Freight</span>
+          <h1 class="reveal">The Heartbeat of Shipping</h1>
+          <p class="lead reveal">International Visions LLC provides dependable box truck freight service with responsive communication, professional scheduling, and careful handling from pickup through delivery. We support shippers, suppliers, retailers, and logistics partners who need a carrier that treats every shipment with urgency and respect.</p>
+          <div class="hero-actions reveal">
+            <a class="btn btn-primary" href="#quote">Request a Callback</a>
+            <a class="btn btn-secondary" href="mailto:trucking@internationalvisionsllc.org">Email Dispatch</a>
+          </div>
+          <div class="hero-highlights">
+            <article class="stat-card reveal"><strong>24ft Box Truck</strong><span>Flexible capacity for general freight and direct scheduled runs.</span></article>
+            <article class="stat-card reveal"><strong>Active DOT &amp; MC Authority</strong><span>Professional operations for dependable freight movement.</span></article>
+            <article class="stat-card reveal"><strong>Family Operated</strong><span>Clear communication and accountable day-to-day service.</span></article>
+          </div>
+        </div>
+        <aside class="hero-panel reveal">
+          <span class="panel-kicker">Freight Focus</span>
+          <div class="hero-row">
+            <div><strong>General Freight</strong><span>Professional transport for commercial shipments.</span></div>
+            <span>01</span>
+          </div>
+          <div class="hero-row">
+            <div><strong>Regional to Long-Haul</strong><span>Maryland, Mid-Atlantic, and extended lanes across the USA.</span></div>
+            <span>02</span>
+          </div>
+          <div class="hero-row">
+            <div><strong>Direct Communication</strong><span>Fast updates for dispatchers, businesses, and shipping coordinators.</span></div>
+            <span>03</span>
+          </div>
+          <div class="pill-list">
+            <span class="pill">Freight Quotes</span>
+            <span class="pill">Pickup Coordination</span>
+            <span class="pill">Delivery Scheduling</span>
+            <span class="pill">Business Logistics Support</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="mini-intro section">
+      <div class="container">
+        <span class="kicker reveal">Built to Move Freight</span>
+        <h2 class="reveal">Reliable Service Without the Runaround</h2>
+        <p class="section-copy reveal">We keep the message clear and the service straightforward. International Visions LLC is structured to support efficient freight movement, disciplined communication, and practical logistics service for businesses that need dependable pickup and delivery support. Every lane, schedule, and customer touchpoint is handled with the same goal: move the freight safely, stay responsive, and make the process easier for the shipper.</p>
+      </div>
+    </section>
+
+    <section class="journey-section section" aria-label="Why choose International Visions LLC">
+      <div class="journey-shell">
+        <div class="journey-stage" id="journeyStage">
+          <svg class="journey-canvas" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="routeGlow" x1="200" y1="160" x2="1210" y2="730" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#60CEFF"/>
+                <stop offset=".55" stop-color="#1EA6E8"/>
+                <stop offset="1" stop-color="#B58A44"/>
+              </linearGradient>
+              <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="8" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g opacity=".26">
+              <path d="M0 760C220 730 332 585 475 556C606 530 652 590 781 580C924 569 1044 433 1200 402C1291 384 1360 405 1400 414" stroke="rgba(255,255,255,.12)" stroke-width="1.5" stroke-dasharray="10 14"/>
+              <path d="M0 550C213 542 338 460 514 425C673 393 821 437 932 402C1062 361 1180 242 1400 238" stroke="rgba(255,255,255,.08)" stroke-width="1.5" stroke-dasharray="10 14"/>
+            </g>
+            <path id="journeyGuide" d="M120 160C250 140 308 180 378 255C435 318 470 416 560 448C647 478 747 392 854 404C981 418 1023 534 1120 596C1181 635 1240 651 1284 662" stroke="rgba(255,255,255,.06)" stroke-width="4" fill="none"/>
+            <path id="journeyRoute" d="M120 160C250 140 308 180 378 255C435 318 470 416 560 448C647 478 747 392 854 404C981 418 1023 534 1120 596C1181 635 1240 651 1284 662" stroke="url(#routeGlow)" stroke-width="8" fill="none" stroke-linecap="round" filter="url(#softGlow)"/>
+            <g id="journeyNodes">
+              <circle cx="120" cy="160" r="9" fill="#60CEFF"/>
+              <circle cx="378" cy="255" r="9" fill="#60CEFF"/>
+              <circle cx="560" cy="448" r="9" fill="#60CEFF"/>
+              <circle cx="854" cy="404" r="9" fill="#60CEFF"/>
+              <circle cx="1120" cy="596" r="9" fill="#B58A44"/>
+              <circle cx="1284" cy="662" r="9" fill="#B58A44"/>
+            </g>
+            <g id="truckMarker" transform="translate(120 160)">
+              <g transform="translate(-28 -18)">
+                <rect x="4" y="10" width="42" height="16" rx="4" fill="#d9dee5" stroke="#b58a44" stroke-width="2"/>
+                <rect x="38" y="6" width="14" height="20" rx="3" fill="#d9dee5" stroke="#b58a44" stroke-width="2"/>
+                <path d="M43 10H51V16H45" stroke="#1277c8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="16" cy="30" r="5" fill="#08111b" stroke="#d9dee5" stroke-width="2"/>
+                <circle cx="39" cy="30" r="5" fill="#08111b" stroke="#d9dee5" stroke-width="2"/>
+              </g>
+            </g>
+          </svg>
+
+          <article class="journey-card jc-1">
+            <span class="num">01</span>
+            <h3>Fast Response</h3>
+            <p>Clear communication matters in freight. We respond quickly, keep details organized, and make scheduling easier for dispatchers, brokers, and shipping teams.</p>
+          </article>
+          <article class="journey-card jc-2">
+            <span class="num">02</span>
+            <h3>Professional Handling</h3>
+            <p>From pickup windows to delivery timing, each shipment is managed with attention to load details, access needs, and practical planning.</p>
+          </article>
+          <article class="journey-card jc-3">
+            <span class="num">03</span>
+            <h3>Dependable Execution</h3>
+            <p>We focus on timely movement, steady updates, and service that reflects well on the businesses that trust us with their freight.</p>
+          </article>
+          <article class="journey-card jc-4">
+            <span class="num">04</span>
+            <h3>Family-Owned Accountability</h3>
+            <p>International Visions LLC is family owned and operated, bringing direct care, ownership, and pride into every shipment and every customer relationship.</p>
+          </article>
+        </div>
+        <div class="journey-spacer"></div>
+      </div>
+    </section>
+
+    <section class="services section" id="services">
+      <div class="container">
+        <span class="kicker reveal">Services</span>
+        <h2 class="reveal">Clean, Simple Freight Support</h2>
+        <p class="section-copy reveal">Our service offering is built around practical freight movement, responsive communication, and dependable execution.</p>
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 14H18V6H8L3 10V14Z" stroke="#60CEFF" stroke-width="1.9" stroke-linejoin="round"/><path d="M18 10H21V14H18" stroke="#60CEFF" stroke-width="1.9" stroke-linejoin="round"/><circle cx="7" cy="16.5" r="1.8" stroke="#D7DDE4" stroke-width="1.8"/><circle cx="18" cy="16.5" r="1.8" stroke="#D7DDE4" stroke-width="1.8"/></svg>
+            </div>
+            <h3>General Freight Hauling</h3>
+            <p>Flexible box truck transport for a wide range of commercial freight requiring dependable pickup and delivery support.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 20V9L12 4L19 9V20" stroke="#60CEFF" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 20V13H15V20" stroke="#D7DDE4" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Regional Deliveries</h3>
+            <p>Reliable lanes serving Maryland and surrounding Mid-Atlantic markets with professional communication and scheduling support.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 5V12L16 15" stroke="#60CEFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="8" stroke="#D7DDE4" stroke-width="1.8"/></svg>
+            </div>
+            <h3>Scheduled Runs</h3>
+            <p>Consistent timing for businesses that need planned freight movement, delivery windows, and dependable operational follow-through.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7H20" stroke="#D7DDE4" stroke-width="1.8" stroke-linecap="round"/><path d="M4 12H20" stroke="#60CEFF" stroke-width="1.8" stroke-linecap="round"/><path d="M4 17H14" stroke="#D7DDE4" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Dispatch-Friendly Updates</h3>
+            <p>Direct, useful communication for shippers, brokers, and logistics teams that need status clarity and fast answers.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section section" id="coverage">
+      <div class="container">
+        <span class="kicker reveal">Coverage</span>
+        <h2 class="reveal">A Route Map That Moves With the Page</h2>
+        <p class="section-copy reveal">From Maryland into key commercial corridors, International Visions LLC is positioned to support freight needs that move beyond a single local lane. Our coverage approach is built for practical regional work with the flexibility to support broader nationwide opportunities.</p>
+      </div>
+      <div class="map-shell">
+        <div class="map-stage" id="mapStage">
+          <svg class="map-canvas" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="mapRoute" x1="390" y1="300" x2="1030" y2="620" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#60CEFF"/>
+                <stop offset=".5" stop-color="#1EA6E8"/>
+                <stop offset="1" stop-color="#B58A44"/>
+              </linearGradient>
+              <filter id="mapGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g opacity=".18">
+              <path d="M258 282C301 230 383 211 459 198C564 179 667 189 732 205C811 224 881 263 971 278C1061 293 1104 307 1134 337C1165 368 1172 418 1149 456C1115 513 1061 558 1018 578C959 606 928 630 887 654C837 684 751 708 675 713C583 719 523 712 455 686C405 667 375 647 344 612C312 578 302 535 283 503C265 472 236 432 234 388C233 344 235 311 258 282Z" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.08)" stroke-width="2"/>
+              <path d="M1040 468C1072 470 1110 492 1122 521C1134 549 1118 573 1095 584C1072 596 1030 603 1009 591C988 578 980 551 995 524C1008 500 1012 467 1040 468Z" fill="rgba(255,255,255,.06)"/>
+            </g>
+            <g opacity=".25" stroke="rgba(255,255,255,.08)" stroke-width="1.2" stroke-dasharray="10 12">
+              <path d="M350 275C430 290 506 320 584 349C670 381 757 399 846 424C923 446 1008 494 1060 544"/>
+              <path d="M405 595C482 559 538 517 611 489C704 454 826 453 947 447"/>
+              <path d="M540 260C632 260 712 280 811 321C899 357 974 401 1060 445"/>
+            </g>
+            <g id="cityDots">
+              <circle cx="1013" cy="420" r="7" fill="#60CEFF"/>
+              <circle cx="916" cy="514" r="7" fill="#60CEFF"/>
+              <circle cx="773" cy="584" r="7" fill="#60CEFF"/>
+              <circle cx="603" cy="529" r="7" fill="#60CEFF"/>
+              <circle cx="556" cy="343" r="7" fill="#60CEFF"/>
+              <circle cx="411" cy="365" r="7" fill="#B58A44"/>
+            </g>
+            <path id="usaRoute" d="M1013 420C985 434 966 472 948 498C935 516 930 519 916 514C872 497 849 503 826 531C806 556 794 576 773 584C744 594 715 578 692 567C660 551 644 535 603 529C572 524 545 495 531 464C510 419 523 371 556 343C579 325 620 320 649 333C698 355 712 391 752 414C792 438 842 430 874 420C916 407 975 398 1013 420Z" fill="none" stroke="url(#mapRoute)" stroke-width="8" stroke-linecap="round" filter="url(#mapGlow)"/>
+            <g id="mapTruck" transform="translate(1013 420)">
+              <g transform="translate(-25 -16)">
+                <rect x="4" y="9" width="38" height="14" rx="4" fill="#d9dee5" stroke="#b58a44" stroke-width="2"/>
+                <rect x="34" y="6" width="12" height="17" rx="3" fill="#d9dee5" stroke="#b58a44" stroke-width="2"/>
+                <path d="M38 10H45V15H39" stroke="#1277c8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="15" cy="27" r="4.5" fill="#08111b" stroke="#d9dee5" stroke-width="2"/>
+                <circle cx="36" cy="27" r="4.5" fill="#08111b" stroke="#d9dee5" stroke-width="2"/>
+              </g>
+            </g>
+            <g fill="#cfd8e3" font-family="Inter, sans-serif" font-size="17" opacity=".7">
+              <text x="1028" y="410">Baltimore</text>
+              <text x="925" y="540">Charlotte</text>
+              <text x="778" y="612">Atlanta</text>
+              <text x="605" y="555">Dallas</text>
+              <text x="565" y="335">Chicago</text>
+              <text x="390" y="357">Denver</text>
+            </g>
+          </svg>
+          <div class="map-overlay">
+            <div class="map-caption mc-1"><strong>Maryland Origin</strong><span>Starting from the Mid-Atlantic, we support freight movement with responsive coordination and clear communication at the start of every load.</span></div>
+            <div class="map-caption mc-2"><strong>Regional Flow</strong><span>As the route expands south and inland, the map shows the practical kind of lane support businesses often need from a dependable box truck carrier.</span></div>
+            <div class="map-caption mc-3"><strong>Nationwide Reach</strong><span>The route completes as a visual statement of flexibility: regional work when speed matters, broader lanes when reach matters, and service that stays organized throughout the trip.</span></div>
+          </div>
+        </div>
+        <div class="map-spacer"></div>
+      </div>
+    </section>
+
+    <section class="cta-band section" id="quote">
+      <div class="container">
+        <div class="cta-card reveal">
+          <div class="cta-copy">
+            <span class="kicker">Request a Quote</span>
+            <h2>Send the Load Details. We Will Follow Up.</h2>
+            <p>Use the form to send the basics of your shipment. Include pickup and delivery points, freight type, dimensions, weight, and anything important about timing or access. We will review the request and respond with the next steps.</p>
+          </div>
+          <div class="form-wrap">
+            <form action="mailto:trucking@internationalvisionsllc.org" method="post" enctype="text/plain">
+              <div class="field"><label for="name">Full Name</label><input id="name" name="Full Name" type="text" required></div>
+              <div class="field"><label for="company">Company Name</label><input id="company" name="Company Name" type="text"></div>
+              <div class="field"><label for="email">Email Address</label><input id="email" name="Email" type="email" required></div>
+              <div class="field"><label for="phone">Phone Number</label><input id="phone" name="Phone" type="tel"></div>
+              <div class="field"><label for="pickup">Pickup City / State</label><input id="pickup" name="Pickup" type="text"></div>
+              <div class="field"><label for="delivery">Delivery City / State</label><input id="delivery" name="Delivery" type="text"></div>
+              <div class="field"><label for="freight">Freight Type</label><input id="freight" name="Freight Type" type="text"></div>
+              <div class="field"><label for="weight">Estimated Weight</label><input id="weight" name="Estimated Weight" type="text"></div>
+              <div class="field"><label for="dimensions">Dimensions</label><input id="dimensions" name="Dimensions" type="text"></div>
+              <div class="field"><label for="date">Preferred Pickup Date</label><input id="date" name="Preferred Pickup Date" type="text"></div>
+              <div class="field full"><label for="notes">Shipment Notes</label><textarea id="notes" name="Shipment Notes"></textarea></div>
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Send Request</button>
+                <p class="form-note">Please include as much shipment detail as possible so we can respond with accurate next steps.</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="section" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <section class="footer-card">
+          <a class="brand" href="#top" aria-label="International Visions LLC home" style="margin-bottom:.85rem">
+            <span class="brand-mark" aria-hidden="true">
+              <svg width="34" height="34" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 34H16L22 24L29 42L36 14L43 38L48 30H59" stroke="url(#fg1)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                  <linearGradient id="fg1" x1="5" y1="14" x2="59" y2="42" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#60CEFF"/>
+                    <stop offset="1" stop-color="#1277C8"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+            <span class="brand-text">
+              <strong>International Visions LLC</strong>
+              <span>The Heartbeat of Shipping</span>
+            </span>
+          </a>
+          <p>Family-owned freight service built around responsive communication, practical logistics support, and dependable box truck transport for general freight.</p>
+          <div class="footer-badges">
+            <span class="footer-badge">Maryland Based</span>
+            <span class="footer-badge">General Freight</span>
+            <span class="footer-badge">24ft Box Truck</span>
+            <span class="footer-badge">Dispatch Friendly</span>
+          </div>
+        </section>
+        <section class="footer-links">
+          <h3 class="footer-title">Services</h3>
+          <ul class="footer-list">
+            <li>General freight hauling</li>
+            <li>Regional freight support</li>
+            <li>Long-haul coordination</li>
+            <li>Scheduled pickup and delivery</li>
+            <li>Business logistics support</li>
+          </ul>
+        </section>
+        <section class="footer-links">
+          <h3 class="footer-title">Coverage</h3>
+          <ul class="footer-list">
+            <li>Maryland</li>
+            <li>Baltimore and surrounding markets</li>
+            <li>Mid-Atlantic freight lanes</li>
+            <li>East Coast support</li>
+            <li>Nationwide opportunities</li>
+          </ul>
+        </section>
+        <section class="footer-contact">
+          <h3 class="footer-title">Contact</h3>
+          <ul class="footer-list">
+            <li><a href="mailto:trucking@internationalvisionsllc.org">trucking@internationalvisionsllc.org</a></li>
+            <li>International Visions LLC</li>
+            <li>Family owned and operated</li>
+            <li>Owner / President: Bernadette Harmon</li>
+            <li>Operations led by Michael Scott Harmon and Vincent Harmon</li>
+          </ul>
+          <p>For quote requests, scheduling, and freight inquiries, use the contact email or the request form above.</p>
+        </section>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> International Visions LLC. All rights reserved.</span>
+        <span>The Heartbeat of Shipping</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/MotionPathPlugin.min.js"></script>
+  <script src="https://assets.codepen.io/16327/DrawSVGPlugin3.min.js"></script>
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('show'));
+      mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('show')));
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    if (window.gsap) {
+      gsap.registerPlugin(ScrollTrigger, MotionPathPlugin, DrawSVGPlugin);
+      gsap.defaults({ ease: 'power3.out' });
+
+      gsap.from('.hero-media', { scale: 1.18, duration: 1.8, ease: 'power2.out' });
+      gsap.from('.hero-panel', { y: 40, autoAlpha: 0, duration: 1.15, delay: 0.2, ease: 'power3.out' });
+      gsap.to('.hero-video', { opacity: 0.16, duration: 2.2, ease: 'power2.out' });
+
+      gsap.utils.toArray('.reveal').forEach((el, i) => {
+        gsap.fromTo(el,
+          { y: 34, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.95,
+            delay: i < 5 ? 0.08 * i : 0,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 85%' }
+          }
+        );
+      });
+
+      const journeyTl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: '.journey-shell',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.1
+        }
+      });
+      journeyTl
+        .from('#journeyRoute', { drawSVG: '0 0' }, 0)
+        .to('#truckMarker', {
+          motionPath: {
+            path: '#journeyGuide',
+            align: '#journeyGuide',
+            alignOrigin: [0.5, 0.5],
+            autoRotate: false
+          }
+        }, 0)
+        .fromTo('.jc-1', { autoAlpha: 0, y: 36, scale: .98 }, { autoAlpha: 1, y: 0, scale: 1, duration: .16 }, .02)
+        .fromTo('.jc-2', { autoAlpha: 0, y: 36, scale: .98 }, { autoAlpha: 1, y: 0, scale: 1, duration: .16 }, .26)
+        .fromTo('.jc-3', { autoAlpha: 0, y: 36, scale: .98 }, { autoAlpha: 1, y: 0, scale: 1, duration: .16 }, .53)
+        .fromTo('.jc-4', { autoAlpha: 0, y: 36, scale: .98 }, { autoAlpha: 1, y: 0, scale: 1, duration: .16 }, .8)
+        .to('.jc-1', { autoAlpha: .35, duration: .12 }, .20)
+        .to('.jc-2', { autoAlpha: .35, duration: .12 }, .48)
+        .to('.jc-3', { autoAlpha: .35, duration: .12 }, .74);
+
+      gsap.to('#journeyStage', {
+        backgroundPosition: '0 60px, 0 0, 0 0, 0 0',
+        ease: 'none',
+        scrollTrigger: { trigger: '.journey-shell', start: 'top top', end: 'bottom bottom', scrub: 1.2 }
+      });
+
+      const mapTl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: '.map-shell',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.1
+        }
+      });
+      mapTl
+        .from('#usaRoute', { drawSVG: '0 0' }, 0)
+        .to('#mapTruck', {
+          motionPath: {
+            path: '#usaRoute',
+            align: '#usaRoute',
+            alignOrigin: [0.5, 0.5],
+            autoRotate: false
+          }
+        }, 0)
+        .fromTo('.mc-1', { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: .16 }, .06)
+        .fromTo('.mc-2', { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: .16 }, .42)
+        .fromTo('.mc-3', { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: .16 }, .76)
+        .to('.mc-1', { autoAlpha: .34, duration: .12 }, .32)
+        .to('.mc-2', { autoAlpha: .34, duration: .12 }, .66);
+
+      gsap.to('.service-card', {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.9,
+        stagger: 0.08,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '.services-grid', start: 'top 82%' }
+      });
+
+      gsap.from('.footer-grid > *', {
+        y: 28,
+        autoAlpha: 0,
+        duration: 0.9,
+        stagger: 0.08,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: 'footer', start: 'top 82%' }
+      });
+    }
+  </script>
+</body>
+</html>
