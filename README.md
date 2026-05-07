@@ -1,4 +1,4 @@
-````md
+
 <img width="1024" height="1024" alt="INTERNATIONAL VISIONS LLC" src="https://github.com/user-attachments/assets/bb5bf765-7a52-488a-a0a7-680a1baa2ef0" />
 
 # INTERNATIONAL VISIONS LLC  
@@ -301,5 +301,3 @@ Family-Owned Freight Carrier
 Maryland Based
 The Heartbeat of Shipping
 
-```
-```
