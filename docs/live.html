@@ -1,0 +1,1468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>International Visions LLC - Live Fleet Tracker</title>
+<meta name="description" content="Live fleet tracker interface for International Visions LLC with Maryland based dispatch, active truck locations, route progress, ETA, and nationwide freight movement." />
+<meta name="theme-color" content="#07111b" />
+<style>
+:root{
+  --bg:#07111b;
+  --bg2:#050a10;
+  --panel:#0c1824;
+  --panel2:#101e2b;
+  --ink:#f6f9fb;
+  --muted:#aab8c4;
+  --blue:#37bdf5;
+  --blue2:#168bd5;
+  --gold:#f7ca69;
+  --gold2:#cfa336;
+  --green:#47e0a1;
+  --orange:#ffae54;
+  --red:#ff6b6b;
+  --line:#263645;
+  --shadow:0 24px 80px rgba(0,0,0,.45);
+  --radius:34px;
+  --map-min-height:720px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 70% 18%,rgba(55,189,245,.10),transparent 34%),
+    radial-gradient(circle at 20% 80%,rgba(247,202,105,.08),transparent 32%),
+    linear-gradient(180deg,var(--bg2),#0a1520 52%,var(--bg2));
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font:inherit}
+.tracker{
+  width:min(1580px,96vw);
+  margin:0 auto;
+  padding:clamp(28px,5vw,72px) 0;
+}
+.kicker{
+  display:inline-flex;
+  gap:.6rem;
+  align-items:center;
+  color:var(--gold);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-size:.78rem;
+  font-weight:900;
+}
+.kicker:before{
+  content:"";
+  width:42px;
+  height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--blue));
+  box-shadow:0 0 18px rgba(55,189,245,.45);
+}
+.header{
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(300px,.7fr);
+  gap:24px;
+  align-items:end;
+  margin-bottom:24px;
+}
+h1{
+  margin:.6rem 0 0;
+  font-size:clamp(2.15rem,5.5vw,6.25rem);
+  letter-spacing:-.075em;
+  line-height:.9;
+  max-width:1040px;
+}
+.header p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.65;
+  font-size:1rem;
+}
+.status-strip{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:14px;
+}
+.status-card{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  padding:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  box-shadow:0 18px 55px rgba(0,0,0,.18);
+}
+.status-card span{
+  display:block;
+  color:var(--muted);
+  font-size:.74rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-weight:900;
+}
+.status-card b{
+  display:block;
+  margin-top:.35rem;
+  font-size:clamp(1.35rem,2.5vw,2rem);
+  line-height:1;
+}
+.status-card small{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:rgba(246,249,251,.72);
+  margin-top:.55rem;
+  font-weight:750;
+}
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 18px rgba(71,224,161,.75);
+}
+.map-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:var(--radius);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015)),
+    radial-gradient(circle at 80% 35%,rgba(55,189,245,.13),transparent 35%),
+    rgba(6,16,26,.92);
+  box-shadow:var(--shadow);
+  min-height:var(--map-min-height);
+  isolation:isolate;
+}
+.map-card:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.95),rgba(0,0,0,.18));
+  pointer-events:none;
+  z-index:0;
+}
+.map-card:after{
+  content:"";
+  position:absolute;
+  inset:auto -20% -45% -20%;
+  height:45%;
+  background:radial-gradient(ellipse at center,rgba(55,189,245,.13),transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+.embed-anchor{
+  position:absolute;
+  top:0;
+  left:0;
+  width:1px;
+  height:1px;
+  pointer-events:none;
+}
+#coverage-map-top{
+  scroll-margin-top:0;
+}
+.zoom-controls{
+  position:absolute;
+  right:20px;
+  bottom:20px;
+  z-index:8;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.zoom-controls button{
+  appearance:none;
+  min-width:42px;
+  height:42px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:999px;
+  background:rgba(5,12,19,.74);
+  color:var(--ink);
+  font-weight:950;
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+  box-shadow:0 12px 35px rgba(0,0,0,.22);
+}
+.zoom-controls button:last-child{
+  padding:0 14px;
+  min-width:70px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:.7rem;
+}
+.zoom-controls button:hover,
+.zoom-controls button:focus-visible{
+  border-color:rgba(55,189,245,.65);
+  background:rgba(55,189,245,.13);
+  outline:none;
+}
+.toolbar{
+  position:absolute;
+  left:20px;
+  top:20px;
+  z-index:7;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  max-width:calc(100% - 40px);
+}
+.toolbar button{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(9,18,28,.74);
+  color:var(--ink);
+  border-radius:999px;
+  padding:10px 13px;
+  font-weight:900;
+  font-size:.74rem;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
+}
+.toolbar button:hover,
+.toolbar button:focus-visible,
+.toolbar button.active{
+  transform:translateY(-1px);
+  border-color:rgba(55,189,245,.62);
+  background:rgba(55,189,245,.13);
+  box-shadow:0 0 0 3px rgba(55,189,245,.08);
+  outline:none;
+}
+.map-wrap{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  touch-action:none;
+  cursor:grab;
+}
+.map-wrap:active{cursor:grabbing}
+svg{
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:var(--map-min-height);
+}
+.land{
+  fill:url(#landGrad);
+  stroke:rgba(255,255,255,.14);
+  stroke-width:1.2;
+  vector-effect:non-scaling-stroke;
+  filter:drop-shadow(0 30px 30px rgba(0,0,0,.25));
+}
+.coast-glow{
+  fill:none;
+  stroke:rgba(55,189,245,.12);
+  stroke-width:9;
+  vector-effect:non-scaling-stroke;
+  filter:blur(4px);
+}
+.state-line{
+  stroke:rgba(255,255,255,.085);
+  stroke-width:1;
+  fill:none;
+  vector-effect:non-scaling-stroke;
+}
+.route{
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-width:4;
+  stroke-dasharray:10 15;
+  stroke-dashoffset:0;
+  opacity:.35;
+  vector-effect:non-scaling-stroke;
+  filter:drop-shadow(0 0 8px rgba(55,189,245,.22));
+  transition:opacity .25s ease,stroke-width .25s ease,filter .25s ease;
+}
+.route.primary{stroke:var(--gold);filter:drop-shadow(0 0 10px rgba(247,202,105,.24))}
+.route.regional{stroke:var(--blue)}
+.route.west{stroke:var(--blue2);opacity:.28}
+.route.active{
+  opacity:.98;
+  stroke-width:5.4;
+  animation:routeFlow 1.4s linear infinite;
+}
+.route.inactive{opacity:.08;filter:none}
+.progress-route{
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-width:7;
+  opacity:.9;
+  vector-effect:non-scaling-stroke;
+  stroke:var(--green);
+  filter:drop-shadow(0 0 14px rgba(71,224,161,.34));
+}
+.progress-route.gold{stroke:var(--gold);filter:drop-shadow(0 0 16px rgba(247,202,105,.35))}
+.progress-route.orange{stroke:var(--orange);filter:drop-shadow(0 0 16px rgba(255,174,84,.35))}
+.progress-route.red{stroke:var(--red);filter:drop-shadow(0 0 16px rgba(255,107,107,.35))}
+.node circle.core{fill:var(--blue)}
+.node.hub circle.core{fill:var(--gold)}
+.node circle.ring{
+  fill:none;
+  stroke:var(--blue);
+  stroke-width:2;
+  opacity:.85;
+  animation:ring 2.2s ease-out infinite;
+  vector-effect:non-scaling-stroke;
+}
+.node.hub circle.ring{stroke:var(--gold)}
+.label{
+  pointer-events:none;
+  opacity:.98;
+}
+.label rect{
+  fill:rgba(4,11,18,.9);
+  stroke:rgba(255,255,255,.13);
+  stroke-width:1;
+  rx:13;
+  vector-effect:non-scaling-stroke;
+  filter:drop-shadow(0 10px 25px rgba(0,0,0,.42));
+}
+.label text{
+  fill:white;
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:-.01em;
+}
+.truck-marker{
+  cursor:pointer;
+  filter:drop-shadow(0 0 12px rgba(71,224,161,.58));
+  transition:opacity .25s ease,filter .25s ease;
+}
+.truck-marker.dim{opacity:.12;filter:none}
+.truck-marker.selected{filter:drop-shadow(0 0 22px rgba(247,202,105,.85))}
+.truck-marker .halo{
+  fill:none;
+  stroke:var(--green);
+  stroke-width:2;
+  opacity:.72;
+  animation:truckPulse 1.8s ease-out infinite;
+  vector-effect:non-scaling-stroke;
+}
+.truck-marker.delayed .halo{stroke:var(--orange)}
+.truck-marker.issue .halo{stroke:var(--red)}
+.truck-icon path.body{fill:var(--gold)}
+.truck-icon path.cab{fill:var(--blue)}
+.truck-icon .wheel{fill:#07111b}
+.truck-marker.delayed .truck-icon path.body{fill:var(--orange)}
+.truck-marker.issue .truck-icon path.body{fill:var(--red)}
+.truck-marker text{
+  fill:#07111b;
+  font-size:8px;
+  font-weight:950;
+  text-anchor:middle;
+  dominant-baseline:middle;
+  pointer-events:none;
+}
+.map-hud{
+  position:absolute;
+  right:20px;
+  top:20px;
+  z-index:7;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:8px;
+  max-width:min(520px,calc(100% - 40px));
+  pointer-events:none;
+}
+.map-hud span{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:999px;
+  background:rgba(5,12,19,.68);
+  color:rgba(246,249,251,.86);
+  padding:10px 13px;
+  font-size:.78rem;
+  font-weight:850;
+  backdrop-filter:blur(12px);
+}
+.map-hud i{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 14px rgba(71,224,161,.8);
+}
+.vehicle-popup{
+  position:absolute;
+  left:20px;
+  bottom:20px;
+  z-index:8;
+  width:min(390px,calc(100% - 132px));
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:24px;
+  background:rgba(5,12,19,.82);
+  color:var(--ink);
+  backdrop-filter:blur(15px);
+  box-shadow:0 18px 60px rgba(0,0,0,.32);
+  padding:15px;
+  transform:translateY(0);
+  opacity:1;
+  transition:opacity .22s ease,transform .22s ease;
+}
+.vehicle-popup.hidden{
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+}
+.popup-close{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:28px;
+  height:28px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:rgba(255,255,255,.055);
+  color:var(--ink);
+  cursor:pointer;
+  font-size:1.1rem;
+  line-height:1;
+}
+.popup-close:hover,.popup-close:focus-visible{
+  border-color:rgba(55,189,245,.6);
+  outline:none;
+}
+.popup-kicker{
+  display:block;
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-size:.68rem;
+  font-weight:950;
+  padding-right:34px;
+}
+.vehicle-popup h3{
+  margin:.32rem 34px .35rem 0;
+  font-size:1.05rem;
+  line-height:1.08;
+}
+.vehicle-popup p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.4;
+  font-size:.84rem;
+}
+.popup-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+.popup-grid div{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:15px;
+  background:rgba(255,255,255,.04);
+  padding:9px;
+}
+.popup-grid span{
+  display:block;
+  color:var(--muted);
+  font-size:.62rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:900;
+}
+.popup-grid b{
+  display:block;
+  margin-top:3px;
+  font-size:.88rem;
+}
+.fleet-dashboard{
+  display:grid;
+  grid-template-columns:minmax(260px,.75fr) minmax(320px,1fr) minmax(420px,1.35fr);
+  gap:14px;
+  margin-top:14px;
+}
+.dispatch-panel,
+.selected-panel,
+.fleet-table-panel{
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:26px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.018)),
+    rgba(5,12,19,.74);
+  box-shadow:0 18px 55px rgba(0,0,0,.2);
+  overflow:hidden;
+}
+.dispatch-panel,
+.selected-panel{
+  padding:18px;
+}
+.dispatch-panel strong,
+.fleet-table-head strong{
+  display:block;
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  font-size:.76rem;
+}
+.dispatch-panel h2{
+  margin:.35rem 0 .5rem;
+  font-size:1.45rem;
+  line-height:1.05;
+}
+.dispatch-panel p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.55;
+  font-size:.94rem;
+}
+.dispatch-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+.dispatch-grid div,
+.detail-grid div{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+  padding:13px;
+}
+.dispatch-grid b{
+  display:block;
+  font-size:1.25rem;
+  color:#fff;
+}
+.dispatch-grid small{
+  color:var(--muted);
+  font-weight:750;
+}
+.truck-detail-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+.selected-panel h3{
+  margin:0;
+  font-size:1.15rem;
+}
+.selected-panel p{
+  margin:.45rem 0 0;
+  color:var(--muted);
+  font-size:.9rem;
+  line-height:1.45;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:999px;
+  padding:7px 9px;
+  font-size:.7rem;
+  font-weight:950;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:#061018;
+  background:var(--green);
+}
+.badge.delayed{background:var(--orange)}
+.badge.issue{background:var(--red);color:#fff}
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+.detail-grid span{
+  display:block;
+  color:var(--muted);
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:900;
+}
+.detail-grid b{
+  display:block;
+  margin-top:4px;
+  font-size:1rem;
+}
+.progress-shell{
+  height:10px;
+  border-radius:999px;
+  margin-top:14px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.progress-bar{
+  height:100%;
+  border-radius:999px;
+  width:0;
+  background:linear-gradient(90deg,var(--blue),var(--green),var(--gold));
+  transition:width .55s ease;
+}
+.fleet-table-panel{
+  min-height:100%;
+}
+.fleet-table-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+  padding:16px 16px 12px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.fleet-table-head span,
+.fleet-table-head small{
+  display:block;
+  color:var(--muted);
+  font-size:.78rem;
+  font-weight:800;
+  margin-top:4px;
+}
+.fleet-table{
+  display:grid;
+}
+.fleet-row{
+  appearance:none;
+  border:0;
+  width:100%;
+  display:grid;
+  grid-template-columns:32px 1fr .9fr .7fr .55fr;
+  gap:12px;
+  align-items:center;
+  text-align:left;
+  padding:13px 16px;
+  color:var(--ink);
+  background:transparent;
+  cursor:pointer;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.fleet-row:hover,
+.fleet-row.active{
+  background:rgba(55,189,245,.08);
+}
+.fleet-row:last-child{border-bottom:0}
+.fleet-dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px rgba(71,224,161,.72);
+}
+.fleet-dot.delayed{background:var(--orange);box-shadow:0 0 12px rgba(255,174,84,.72)}
+.fleet-dot.issue{background:var(--red);box-shadow:0 0 12px rgba(255,107,107,.72)}
+.fleet-row b{display:block;font-size:.88rem}
+.fleet-row span{display:block;color:var(--muted);font-size:.75rem;margin-top:2px}
+.fleet-row em{
+  color:rgba(246,249,251,.82);
+  font-style:normal;
+  font-size:.78rem;
+  font-weight:900;
+  justify-self:end;
+}
+.fleet-row .fleet-status{
+  display:inline-flex;
+  width:max-content;
+  border-radius:999px;
+  padding:6px 8px;
+  color:#061018;
+  background:var(--green);
+  font-size:.68rem;
+  font-weight:950;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.fleet-row .fleet-status.delayed{background:var(--orange)}
+.fleet-row .fleet-status.issue{background:var(--red);color:white}
+@keyframes routeFlow{to{stroke-dashoffset:-70}}
+@keyframes ring{0%{r:6;opacity:.9}100%{r:21;opacity:0}}
+@keyframes truckPulse{0%{r:14;opacity:.78}100%{r:34;opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .route.active,.node circle.ring,.truck-marker .halo{animation:none!important}
+}
+@media(max-width:1120px){
+  .header{grid-template-columns:1fr}
+  .status-strip{grid-template-columns:repeat(2,1fr)}
+  .fleet-dashboard{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:repeat(2,1fr)}
+  .map-hud{top:auto;right:14px;bottom:14px;max-width:calc(100% - 28px)}
+}
+.site-footer{
+  margin-top:18px;
+  padding:18px 0 4px;
+  text-align:center;
+  color:rgba(246,249,251,.58);
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:.74rem;
+  font-weight:900;
+}
+@media(max-width:720px){
+  :root{--map-min-height:820px;--radius:24px}
+  .tracker{width:min(100% - 20px,1580px)}
+  .status-strip{grid-template-columns:1fr}
+  .toolbar{left:14px;top:14px;gap:7px}
+  .toolbar button{padding:9px 11px;font-size:.68rem}
+  .dispatch-grid,.detail-grid{grid-template-columns:1fr}
+  .fleet-row{grid-template-columns:26px 1fr auto;gap:9px}
+  .fleet-row .fleet-route,.fleet-row .fleet-speed{display:none}
+  .map-hud{display:none}
+  .zoom-controls{right:14px;bottom:14px}
+  .zoom-controls button{min-width:40px;height:40px}
+  .vehicle-popup{left:14px;right:14px;bottom:68px;width:auto;padding:14px}
+  .popup-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+<main class="tracker" aria-labelledby="tracker-title">
+  <div class="header">
+    <div>
+      <span class="kicker">Live tracker</span>
+      <h1 id="tracker-title">Maryland dispatch. Live national fleet movement.</h1>
+    </div>
+    <p>
+      A live-style dispatch map for International Visions LLC. Trucks move along projected freight lanes with route progress, ETA, lane status, and a clean data model ready to connect to a real GPS or TMS endpoint.
+    </p>
+  </div>
+
+  <section class="status-strip" aria-label="Fleet summary">
+    <div class="status-card"><span>Fleet online</span><b id="statOnline">0</b><small><i class="status-dot"></i>GPS feed active</small></div>
+    <div class="status-card"><span>On schedule</span><b id="statSchedule">0</b><small>Live route progress</small></div>
+    <div class="status-card"><span>Active miles</span><b id="statMiles">0</b><small>Current dispatch board</small></div>
+    <div class="status-card"><span>Last update</span><b id="statUpdate">--:--</b><small>Auto refresh simulation</small></div>
+  </section>
+
+  <section class="map-card" id="coverage-map-top" aria-label="Live fleet map">
+    <a class="embed-anchor" id="fleetTracker" aria-hidden="true"></a>
+    <div class="zoom-controls" aria-label="Map controls">
+      <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
+      <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
+      <button type="button" data-zoom="reset" aria-label="Reset map">Reset</button>
+    </div>
+    <div class="toolbar" aria-label="Fleet filters">
+      <button class="active" type="button" data-filter="all" aria-pressed="true">All trucks</button>
+      <button type="button" data-filter="on-time" aria-pressed="false">On time</button>
+      <button type="button" data-filter="delayed" aria-pressed="false">Delayed</button>
+      <button type="button" data-filter="issue" aria-pressed="false">Needs attention</button>
+    </div>
+
+    <div class="map-hud" aria-live="polite">
+      <span><i></i><b id="liveToast">Live fleet sync ready</b></span>
+      <span id="hudSelected">Selected: IV-024</span>
+    </div>
+
+    <aside class="vehicle-popup" id="vehiclePopup" aria-live="polite">
+      <button type="button" class="popup-close" aria-label="Hide vehicle detail">×</button>
+      <div id="vehiclePopupContent"></div>
+    </aside>
+
+    <div class="map-wrap">
+      <svg id="mapSvg" viewBox="0 0 1200 720" role="img" aria-label="Live animated fleet tracker map for International Visions LLC">
+        <defs>
+          <linearGradient id="landGrad" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="#64717a" stop-opacity=".88"/>
+            <stop offset=".55" stop-color="#414d56" stop-opacity=".84"/>
+            <stop offset="1" stop-color="#2f3a42" stop-opacity=".92"/>
+          </linearGradient>
+          <radialGradient id="hubGlow">
+            <stop offset="0" stop-color="#f7ca69" stop-opacity=".9"/>
+            <stop offset=".45" stop-color="#f7ca69" stop-opacity=".22"/>
+            <stop offset="1" stop-color="#f7ca69" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <g id="viewportLayer">
+          <g id="mapLayer"></g>
+          <g id="stateLayer"></g>
+          <g id="routeLayer"></g>
+          <g id="progressLayer"></g>
+          <g id="nodeLayer"></g>
+          <g id="truckLayer"></g>
+          <g id="labelLayer"></g>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <section class="fleet-dashboard" aria-label="Fleet data dashboard">
+    <article class="dispatch-panel">
+      <strong>International Visions LLC</strong>
+      <h2>The Heartbeat of Shipping</h2>
+      <p>Maryland dispatch view with live-style route progress, active vehicle data, and clean broker-friendly status reporting.</p>
+      <div class="dispatch-grid" aria-label="Dispatch summary">
+        <div><b>MD</b><small>Home hub</small></div>
+        <div><b>USA</b><small>Coverage</small></div>
+        <div><b>24ft</b><small>Box truck</small></div>
+      </div>
+    </article>
+
+    <article class="selected-panel" id="truckDetail" aria-live="polite"></article>
+
+    <article class="fleet-table-panel">
+      <div class="fleet-table-head">
+        <div>
+          <strong>Active vehicles</strong>
+          <span id="fleetCount">0 units reporting</span>
+        </div>
+        <small>Click a vehicle to focus route</small>
+      </div>
+      <div class="fleet-table" id="fleetList"></div>
+    </article>
+  </section>
+  <footer class="site-footer">International Visions LLC</footer>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const W = 1200;
+  const H = 720;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const viewportLayer = document.getElementById('viewportLayer');
+  const mapWrap = document.querySelector('.map-wrap');
+  const mapSvg = document.getElementById('mapSvg');
+  const vehiclePopup = document.getElementById('vehiclePopup');
+  const vehiclePopupContent = document.getElementById('vehiclePopupContent');
+
+  const layers = {
+    map: document.getElementById('mapLayer'),
+    state: document.getElementById('stateLayer'),
+    route: document.getElementById('routeLayer'),
+    progress: document.getElementById('progressLayer'),
+    node: document.getElementById('nodeLayer'),
+    truck: document.getElementById('truckLayer'),
+    label: document.getElementById('labelLayer')
+  };
+
+  const ui = {
+    detail: document.getElementById('truckDetail'),
+    fleetList: document.getElementById('fleetList'),
+    fleetCount: document.getElementById('fleetCount'),
+    statOnline: document.getElementById('statOnline'),
+    statSchedule: document.getElementById('statSchedule'),
+    statMiles: document.getElementById('statMiles'),
+    statUpdate: document.getElementById('statUpdate'),
+    liveToast: document.getElementById('liveToast'),
+    hudSelected: document.getElementById('hudSelected'),
+    vehiclePopup,
+    vehiclePopupContent
+  };
+
+  const cities = {
+    baltimore: { name:'Maryland Baltimore', lat:39.2904, lon:-76.6122, hub:true, label:'right', short:'MD hub' },
+    washington: { name:'Washington DC', lat:38.9072, lon:-77.0369, label:'right', short:'DC' },
+    philadelphia: { name:'Philadelphia', lat:39.9526, lon:-75.1652, label:'right', short:'Philadelphia' },
+    boston: { name:'Boston', lat:42.3601, lon:-71.0589, label:'right', short:'Boston' },
+    northeast: { name:'New York', lat:40.7128, lon:-74.0060, label:'right', short:'NY NJ Northeast' },
+    atlanta: { name:'Atlanta', lat:33.7490, lon:-84.3880, label:'right', short:'Atlanta' },
+    miami: { name:'Miami', lat:25.7617, lon:-80.1918, label:'right', short:'Miami' },
+    charlotte: { name:'Charlotte', lat:35.2271, lon:-80.8431, label:'right', short:'Carolinas' },
+    nashville: { name:'Nashville', lat:36.1627, lon:-86.7816, label:'right', short:'Nashville' },
+    newOrleans: { name:'New Orleans', lat:29.9511, lon:-90.0715, label:'right', short:'New Orleans' },
+    chicago: { name:'Chicago', lat:41.8781, lon:-87.6298, label:'right', short:'Chicago' },
+    detroit: { name:'Detroit', lat:42.3314, lon:-83.0458, label:'right', short:'Detroit' },
+    minneapolis: { name:'Minneapolis', lat:44.9778, lon:-93.2650, label:'right', short:'Minneapolis' },
+    stLouis: { name:'St. Louis', lat:38.6270, lon:-90.1994, label:'right', short:'St. Louis' },
+    kansasCity: { name:'Kansas City', lat:39.0997, lon:-94.5786, label:'right', short:'Kansas City' },
+    dallas: { name:'Dallas', lat:32.7767, lon:-96.7970, label:'left', short:'Dallas' },
+    houston: { name:'Houston', lat:29.7604, lon:-95.3698, label:'left', short:'Houston' },
+    denver: { name:'Denver', lat:39.7392, lon:-104.9903, label:'right', short:'Denver' },
+    saltLakeCity: { name:'Salt Lake City', lat:40.7608, lon:-111.8910, label:'left', short:'Salt Lake City' },
+    phoenix: { name:'Phoenix', lat:33.4484, lon:-112.0740, label:'left', short:'Phoenix' },
+    lasVegas: { name:'Las Vegas', lat:36.1699, lon:-115.1398, label:'left', short:'Las Vegas' },
+    losAngeles: { name:'Los Angeles', lat:34.0522, lon:-118.2437, label:'left', short:'Los Angeles' },
+    sanFrancisco: { name:'San Francisco', lat:37.7749, lon:-122.4194, label:'left', short:'San Francisco' },
+    portland: { name:'Portland', lat:45.5152, lon:-122.6784, label:'left', short:'Portland' },
+    seattle: { name:'Seattle', lat:47.6062, lon:-122.3321, label:'left', short:'Seattle' }
+  };
+
+  const routes = {
+    r1: { from:'baltimore', to:'northeast', type:'primary', lift:-70, miles:190 },
+    r2: { from:'baltimore', to:'boston', type:'primary', lift:-95, miles:405 },
+    r3: { from:'baltimore', to:'philadelphia', type:'regional', lift:-42, miles:105 },
+    r4: { from:'baltimore', to:'washington', type:'regional', lift:35, miles:40 },
+    r5: { from:'baltimore', to:'chicago', type:'primary', lift:-115, miles:700 },
+    r6: { from:'chicago', to:'minneapolis', type:'primary', lift:-52, miles:410 },
+    r7: { from:'chicago', to:'detroit', type:'regional', lift:-35, miles:285 },
+    r8: { from:'baltimore', to:'atlanta', type:'regional', lift:90, miles:680 },
+    r9: { from:'baltimore', to:'charlotte', type:'regional', lift:65, miles:435 },
+    r10:{ from:'atlanta', to:'miami', type:'regional', lift:65, miles:660 },
+    r11:{ from:'atlanta', to:'nashville', type:'regional', lift:-40, miles:250 },
+    r12:{ from:'nashville', to:'newOrleans', type:'regional', lift:65, miles:530 },
+    r13:{ from:'baltimore', to:'dallas', type:'primary', lift:160, miles:1360 },
+    r14:{ from:'dallas', to:'houston', type:'regional', lift:35, miles:240 },
+    r15:{ from:'dallas', to:'phoenix', type:'west', lift:80, miles:1065 },
+    r16:{ from:'phoenix', to:'losAngeles', type:'west', lift:35, miles:370 },
+    r17:{ from:'losAngeles', to:'sanFrancisco', type:'west', lift:-45, miles:380 },
+    r18:{ from:'sanFrancisco', to:'portland', type:'west', lift:-55, miles:635 },
+    r19:{ from:'portland', to:'seattle', type:'west', lift:-28, miles:175 },
+    r20:{ from:'baltimore', to:'denver', type:'west', lift:-70, miles:1680 },
+    r21:{ from:'denver', to:'saltLakeCity', type:'west', lift:-35, miles:520 },
+    r22:{ from:'saltLakeCity', to:'lasVegas', type:'west', lift:45, miles:420 },
+    r23:{ from:'denver', to:'kansasCity', type:'primary', lift:60, miles:600 },
+    r24:{ from:'kansasCity', to:'stLouis', type:'primary', lift:45, miles:250 },
+    r25:{ from:'stLouis', to:'baltimore', type:'primary', lift:65, miles:810 }
+  };
+
+  const fleet = [
+    { id:'IV-024', driver:'M. Carter', routeId:'r1', progress:18, speed:58, status:'on-time', load:'Retail pallets', eta:'2h 15m' },
+    { id:'IV-118', driver:'J. Rivera', routeId:'r5', progress:44, speed:63, status:'on-time', load:'Boxed freight', eta:'6h 40m' },
+    { id:'IV-207', driver:'A. Miles', routeId:'r8', progress:72, speed:51, status:'delayed', load:'Broker load', eta:'3h 05m' },
+    { id:'IV-332', driver:'L. Hayes', routeId:'r13', progress:31, speed:61, status:'on-time', load:'Warehouse transfer', eta:'11h 20m' },
+    { id:'IV-409', driver:'K. Brooks', routeId:'r20', progress:57, speed:67, status:'on-time', load:'Dedicated lane', eta:'9h 50m' },
+    { id:'IV-516', driver:'S. Bennett', routeId:'r15', progress:66, speed:48, status:'issue', load:'Check call required', eta:'4h 30m' },
+    { id:'IV-620', driver:'D. Morgan', routeId:'r9', progress:25, speed:56, status:'on-time', load:'Expedited boxes', eta:'5h 10m' },
+    { id:'IV-731', driver:'P. Owens', routeId:'r17', progress:41, speed:54, status:'on-time', load:'Coastal freight', eta:'4h 50m' },
+    { id:'IV-844', driver:'R. Coleman', routeId:'r21', progress:22, speed:60, status:'delayed', load:'Mountain lane', eta:'6h 15m' },
+    { id:'IV-905', driver:'T. Walker', routeId:'r10', progress:63, speed:59, status:'on-time', load:'Florida delivery', eta:'4h 05m' }
+  ];
+
+  let selectedTruckId = fleet[0].id;
+  let activeFilter = 'all';
+  const routeElements = new Map();
+  const progressElements = new Map();
+  const truckElements = new Map();
+  const routeLengths = new Map();
+  const viewState = { x:0, y:0, scale:1, minScale:1, maxScale:3.2 };
+  const pointers = new Map();
+  let panStart = null;
+  let pinchStart = null;
+
+  function createSvg(name, attrs = {}, parent) {
+    const node = document.createElementNS(SVG_NS, name);
+    for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+    if (parent) parent.appendChild(node);
+    return node;
+  }
+
+  function albersUsa(lon, lat) {
+    const rad = Math.PI / 180;
+    const phi1 = 29.5 * rad;
+    const phi2 = 45.5 * rad;
+    const phi0 = 23 * rad;
+    const lambda0 = -96 * rad;
+    const phi = lat * rad;
+    const lambda = lon * rad;
+    const n = 0.5 * (Math.sin(phi1) + Math.sin(phi2));
+    const c = Math.cos(phi1) ** 2 + 2 * n * Math.sin(phi1);
+    const rho = Math.sqrt(c - 2 * n * Math.sin(phi)) / n;
+    const rho0 = Math.sqrt(c - 2 * n * Math.sin(phi0)) / n;
+    const theta = n * (lambda - lambda0);
+    const scale = 925;
+    return {
+      x: W / 2 + scale * rho * Math.sin(theta),
+      y: H / 2 + 118 - scale * (rho0 - rho * Math.cos(theta))
+    };
+  }
+
+  const projected = Object.fromEntries(
+    Object.entries(cities).map(([key, city]) => [key, { ...city, ...albersUsa(city.lon, city.lat) }])
+  );
+
+  function curvePath(route) {
+    const a = projected[route.from];
+    const b = projected[route.to];
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const mx = (a.x + b.x) / 2;
+    const my = (a.y + b.y) / 2;
+    const len = Math.max(1, Math.hypot(dx, dy));
+    const nx = -dy / len;
+    const ny = dx / len;
+    const cx = mx + nx * route.lift;
+    const cy = my + ny * route.lift;
+    return `M ${a.x.toFixed(1)} ${a.y.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+  }
+
+  function statusLabel(status) {
+    if (status === 'delayed') return 'Delayed';
+    if (status === 'issue') return 'Needs attention';
+    return 'On time';
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function renderLand() {
+    // Lightweight projected contiguous-USA silhouette.
+    // Built from lon/lat points so city markers, routes and land mass share the same coordinate system.
+    const outline = [
+      [-124.7,48.4],[-123.3,46.2],[-124.1,43.7],[-123.7,41.8],[-124.2,40.4],[-123.2,38.6],[-122.4,37.7],[-121.8,36.6],[-121.0,35.6],[-119.8,34.7],[-118.5,34.0],[-117.1,32.7],[-114.7,32.6],[-111.0,31.5],[-108.2,31.3],[-104.9,31.8],[-102.9,29.8],[-101.2,29.2],[-99.1,27.8],[-97.2,26.0],[-95.1,28.4],[-93.0,29.2],[-90.0,29.1],[-88.0,30.3],[-85.4,29.7],[-82.8,27.9],[-81.3,25.2],[-80.1,26.2],[-80.0,28.6],[-80.7,30.4],[-79.5,32.4],[-77.2,34.6],[-76.0,36.5],[-75.4,38.8],[-74.0,40.5],[-71.0,41.7],[-69.8,43.5],[-70.6,45.0],[-73.2,45.4],[-75.0,44.9],[-78.8,43.6],[-82.0,42.2],[-83.2,41.7],[-87.0,41.8],[-90.0,46.0],[-94.7,48.9],[-101.2,48.9],[-111.0,48.9],[-116.2,48.8],[-124.7,48.4]
+    ];
+    const d = outline.map(([lon, lat], index) => {
+      const p = albersUsa(lon, lat);
+      return `${index ? 'L' : 'M'}${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+    }).join(' ') + ' Z';
+
+    createSvg('path', { d, class:'coast-glow' }, layers.map);
+    createSvg('path', { d, class:'land' }, layers.map);
+  }
+
+  function renderGuideLines() {
+    [-120,-115,-110,-105,-100,-95,-90,-85,-80,-75].forEach(lon => {
+      let d = '';
+      for (let lat = 26; lat <= 49; lat += 1) {
+        const p = albersUsa(lon, lat);
+        d += `${lat === 26 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+      }
+      createSvg('path', { d, class:'state-line', opacity:'.64' }, layers.state);
+    });
+
+    [30,35,40,45].forEach(lat => {
+      let d = '';
+      for (let lon = -124; lon <= -67; lon += 1) {
+        const p = albersUsa(lon, lat);
+        d += `${lon === -124 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+      }
+      createSvg('path', { d, class:'state-line', opacity:'.54' }, layers.state);
+    });
+  }
+
+  function renderRoutes() {
+    for (const [routeId, route] of Object.entries(routes)) {
+      const d = curvePath(route);
+      const path = createSvg('path', {
+        d,
+        class:`route ${route.type}`,
+        'data-route':routeId,
+        'data-type':route.type
+      }, layers.route);
+      routeElements.set(routeId, path);
+
+      const progress = createSvg('path', {
+        d,
+        class:'progress-route',
+        'data-route':routeId
+      }, layers.progress);
+      const len = progress.getTotalLength();
+      progress.style.strokeDasharray = String(len);
+      progress.style.strokeDashoffset = String(len);
+      routeLengths.set(routeId, len);
+      progressElements.set(routeId, progress);
+    }
+  }
+
+  function renderNodes() {
+    Object.values(projected).forEach(point => {
+      if (point.hub) createSvg('circle', { cx:point.x, cy:point.y, r:70, fill:'url(#hubGlow)', opacity:'.55' }, layers.node);
+
+      const group = createSvg('g', { class:`node ${point.hub ? 'hub' : ''}` }, layers.node);
+      createSvg('circle', { class:'ring', cx:point.x, cy:point.y, r:6 }, group);
+      createSvg('circle', { class:'core', cx:point.x, cy:point.y, r:point.hub ? 8 : 6 }, group);
+
+      const label = createSvg('g', { class:'label' }, layers.label);
+      const isLeft = point.label === 'left';
+      const textWidth = Math.max(92, point.name.length * 8.5 + 24);
+      const x = isLeft ? point.x - textWidth - 18 : point.x + 18;
+      const y = point.y - 20;
+      createSvg('rect', { x, y, width:textWidth, height:38, rx:14 }, label);
+      const text = createSvg('text', { x:x + 12, y:y + 24 }, label);
+      text.textContent = point.name;
+    });
+  }
+
+  function truckGraphic(parent, truck) {
+    createSvg('circle', { class:'halo', cx:0, cy:0, r:14 }, parent);
+    const g = createSvg('g', { class:'truck-icon', transform:'translate(-15 -9) scale(.58)' }, parent);
+    createSvg('path', { class:'body', d:'M3 7h28v14H3z' }, g);
+    createSvg('path', { class:'cab', d:'M31 11h9l7 5v5H31z' }, g);
+    createSvg('path', { d:'M37 12.7h3l4 3.1h-7z', fill:'#07111b', opacity:'.58' }, g);
+    createSvg('circle', { class:'wheel', cx:12, cy:22, r:4 }, g);
+    createSvg('circle', { class:'wheel', cx:40, cy:22, r:4 }, g);
+    createSvg('path', { d:'M6 11.5h19M6 15.5h13', stroke:'#07111b', 'stroke-width':'2', 'stroke-linecap':'round', opacity:'.42' }, g);
+    const plate = createSvg('text', { x:0, y:-18 }, parent);
+    plate.textContent = truck.id.replace('IV-', '');
+  }
+
+  function renderTrucks() {
+    fleet.forEach(truck => {
+      const group = createSvg('g', {
+        class:`truck-marker ${truck.status}`,
+        'data-truck':truck.id,
+        tabindex:'0',
+        role:'button',
+        'aria-label':`${truck.id} ${statusLabel(truck.status)}`
+      }, layers.truck);
+      truckGraphic(group, truck);
+      group.addEventListener('click', () => selectTruck(truck.id));
+      group.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          selectTruck(truck.id);
+        }
+      });
+      truckElements.set(truck.id, group);
+    });
+  }
+
+  function pointOnRoute(routeId, progress) {
+    const path = progressElements.get(routeId);
+    const len = routeLengths.get(routeId) || 0;
+    const at = len * clamp(progress, 0, 100) / 100;
+    return path.getPointAtLength(at);
+  }
+
+  function updateProgressRoutes() {
+    progressElements.forEach((path, routeId) => {
+      const trucks = fleet.filter(truck => truck.routeId === routeId && truckMatchesFilter(truck));
+      const selected = fleet.find(truck => truck.id === selectedTruckId && truck.routeId === routeId);
+      const visibleTruck = selected || trucks[0];
+      const len = routeLengths.get(routeId) || 0;
+
+      if (!visibleTruck) {
+        path.style.opacity = '0';
+        return;
+      }
+
+      path.style.opacity = selected ? '.95' : '.35';
+      path.style.strokeDashoffset = String(len - (len * visibleTruck.progress / 100));
+      path.classList.toggle('gold', visibleTruck.status === 'on-time');
+      path.classList.toggle('orange', visibleTruck.status === 'delayed');
+      path.classList.toggle('red', visibleTruck.status === 'issue');
+    });
+  }
+
+  function updateTruckPositions() {
+    fleet.forEach(truck => {
+      const group = truckElements.get(truck.id);
+      const point = pointOnRoute(truck.routeId, truck.progress);
+      group.setAttribute('transform', `translate(${point.x.toFixed(1)} ${point.y.toFixed(1)})`);
+      group.classList.toggle('selected', truck.id === selectedTruckId);
+      group.classList.toggle('dim', !truckMatchesFilter(truck));
+    });
+  }
+
+  function updateRouteVisibility() {
+    routeElements.forEach((path, routeId) => {
+      const hasVisible = fleet.some(truck => truck.routeId === routeId && truckMatchesFilter(truck));
+      const hasSelected = fleet.some(truck => truck.routeId === routeId && truck.id === selectedTruckId);
+      path.classList.toggle('active', hasVisible || hasSelected);
+      path.classList.toggle('inactive', !hasVisible && !hasSelected);
+    });
+  }
+
+  function truckMatchesFilter(truck) {
+    return activeFilter === 'all' || truck.status === activeFilter;
+  }
+
+  function selectTruck(id) {
+    selectedTruckId = id;
+    renderFleetList();
+    renderDetail();
+    updateRouteVisibility();
+    updateProgressRoutes();
+    updateTruckPositions();
+  }
+
+  function renderDetail() {
+    const truck = fleet.find(item => item.id === selectedTruckId) || fleet[0];
+    if (!truck) return;
+    const route = routes[truck.routeId];
+    const from = cities[route.from];
+    const to = cities[route.to];
+    const remaining = Math.max(0, Math.round(route.miles * (1 - truck.progress / 100)));
+
+    ui.detail.innerHTML = `
+      <div class="truck-detail-head">
+        <div>
+          <h3>${truck.id} - ${from.short} to ${to.short}</h3>
+          <p>${truck.driver} moving ${truck.load}. ${remaining} miles remaining on current dispatch.</p>
+        </div>
+        <span class="badge ${truck.status === 'on-time' ? '' : truck.status}">${statusLabel(truck.status)}</span>
+      </div>
+      <div class="detail-grid">
+        <div><span>ETA</span><b>${truck.eta}</b></div>
+        <div><span>Speed</span><b>${truck.speed} mph</b></div>
+        <div><span>Progress</span><b>${Math.round(truck.progress)}%</b></div>
+        <div><span>Miles left</span><b>${remaining}</b></div>
+      </div>
+      <div class="progress-shell"><div class="progress-bar" style="width:${truck.progress}%"></div></div>`;
+
+    if (ui.hudSelected) {
+      ui.hudSelected.textContent = `Selected: ${truck.id} - ${Math.round(truck.progress)}% - ETA ${truck.eta}`;
+    }
+
+    if (ui.vehiclePopupContent) {
+      ui.vehiclePopupContent.innerHTML = `
+        <span class="popup-kicker">${statusLabel(truck.status)}</span>
+        <h3>${truck.id} - ${from.short} to ${to.short}</h3>
+        <p>${truck.driver} moving ${truck.load}. ${remaining} miles remaining.</p>
+        <div class="popup-grid">
+          <div><span>ETA</span><b>${truck.eta}</b></div>
+          <div><span>Speed</span><b>${truck.speed} mph</b></div>
+          <div><span>Done</span><b>${Math.round(truck.progress)}%</b></div>
+        </div>`;
+      ui.vehiclePopup.classList.remove('hidden');
+    }
+  }
+
+  function renderFleetList() {
+    ui.fleetList.innerHTML = '';
+    fleet.forEach(truck => {
+      const route = routes[truck.routeId];
+      const from = cities[route.from];
+      const to = cities[route.to];
+      const row = document.createElement('button');
+      row.type = 'button';
+      row.className = `fleet-row ${truck.id === selectedTruckId ? 'active' : ''}`;
+      row.dataset.truck = truck.id;
+      row.innerHTML = `
+        <i class="fleet-dot ${truck.status === 'on-time' ? '' : truck.status}"></i>
+        <span><b>${truck.id}</b><span>${truck.driver} - ${truck.load}</span></span>
+        <span class="fleet-route"><b>${from.short} to ${to.short}</b><span>${truck.eta} ETA</span></span>
+        <span class="fleet-speed"><b>${truck.speed} mph</b><span>${Math.round(truck.progress)}% complete</span></span>
+        <em class="fleet-status ${truck.status === 'on-time' ? '' : truck.status}">${statusLabel(truck.status)}</em>`;
+      row.addEventListener('click', () => selectTruck(truck.id));
+      ui.fleetList.appendChild(row);
+    });
+    ui.fleetCount.textContent = `${fleet.length} units reporting`;
+  }
+
+  function updateStats() {
+    const online = fleet.length;
+    const onSchedule = fleet.filter(truck => truck.status === 'on-time').length;
+    const miles = fleet.reduce((sum, truck) => {
+      const route = routes[truck.routeId];
+      return sum + Math.max(0, Math.round(route.miles * (1 - truck.progress / 100)));
+    }, 0);
+    const now = new Date();
+    ui.statOnline.textContent = String(online);
+    ui.statSchedule.textContent = String(onSchedule);
+    ui.statMiles.textContent = miles.toLocaleString();
+    ui.statUpdate.textContent = now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+    ui.liveToast.textContent = `Fleet sync ${now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`;
+  }
+
+  function tickFleet() {
+    fleet.forEach(truck => {
+      if (truck.progress >= 99) return;
+      const modifier = truck.status === 'issue' ? .05 : truck.status === 'delayed' ? .09 : .14;
+      const next = truck.progress + modifier + Math.random() * .08;
+      truck.progress = clamp(next, 0, 99);
+      const route = routes[truck.routeId];
+      const remaining = route.miles * (1 - truck.progress / 100);
+      const hours = remaining / Math.max(35, truck.speed);
+      const h = Math.floor(hours);
+      const m = Math.round((hours - h) * 60);
+      truck.eta = `${h}h ${String(m).padStart(2, '0')}m`;
+    });
+
+    updateStats();
+    renderFleetList();
+    renderDetail();
+    updateRouteVisibility();
+    updateProgressRoutes();
+    updateTruckPositions();
+  }
+
+  function bindFilters() {
+    const buttons = document.querySelectorAll('.toolbar button');
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(other => {
+          other.classList.remove('active');
+          other.setAttribute('aria-pressed', 'false');
+        });
+        button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
+        activeFilter = button.dataset.filter || 'all';
+        updateRouteVisibility();
+        updateProgressRoutes();
+        updateTruckPositions();
+      });
+    });
+  }
+
+  function applyViewTransform() {
+    viewState.scale = clamp(viewState.scale, viewState.minScale, viewState.maxScale);
+    const maxX = (viewState.scale - 1) * W * 0.5;
+    const maxY = (viewState.scale - 1) * H * 0.5;
+    viewState.x = clamp(viewState.x, -maxX, maxX);
+    viewState.y = clamp(viewState.y, -maxY, maxY);
+    viewportLayer.setAttribute('transform', `translate(${viewState.x.toFixed(2)} ${viewState.y.toFixed(2)}) scale(${viewState.scale.toFixed(3)})`);
+  }
+
+  function clientToSvgPoint(clientX, clientY) {
+    const rect = mapSvg.getBoundingClientRect();
+    return {
+      x: ((clientX - rect.left) / rect.width) * W,
+      y: ((clientY - rect.top) / rect.height) * H
+    };
+  }
+
+  function setScaleAt(nextScale, focalX = W / 2, focalY = H / 2) {
+    const oldScale = viewState.scale;
+    const contentX = (focalX - viewState.x) / oldScale;
+    const contentY = (focalY - viewState.y) / oldScale;
+    viewState.scale = clamp(nextScale, viewState.minScale, viewState.maxScale);
+    viewState.x = focalX - contentX * viewState.scale;
+    viewState.y = focalY - contentY * viewState.scale;
+    applyViewTransform();
+  }
+
+  function zoomMap(delta, focalPoint) {
+    const next = delta > 0 ? viewState.scale * 1.18 : viewState.scale / 1.18;
+    const point = focalPoint || { x:W / 2, y:H / 2 };
+    setScaleAt(next, point.x, point.y);
+  }
+
+  function resetMap() {
+    viewState.x = 0;
+    viewState.y = 0;
+    viewState.scale = 1;
+    applyViewTransform();
+  }
+
+  function bindZoomControls() {
+    document.querySelectorAll('[data-zoom]').forEach(button => {
+      button.addEventListener('click', () => {
+        const action = button.dataset.zoom;
+        if (action === 'in') zoomMap(1, { x:W / 2, y:H / 2 });
+        if (action === 'out') zoomMap(-1, { x:W / 2, y:H / 2 });
+        if (action === 'reset') resetMap();
+      });
+    });
+
+    mapWrap.addEventListener('wheel', event => {
+      event.preventDefault();
+      zoomMap(event.deltaY < 0 ? 1 : -1, clientToSvgPoint(event.clientX, event.clientY));
+    }, { passive:false });
+  }
+
+  function pointerDistance() {
+    const points = [...pointers.values()];
+    if (points.length < 2) return 0;
+    return Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
+  }
+
+  function pointerMidpoint() {
+    const points = [...pointers.values()];
+    if (points.length < 2) return null;
+    return {
+      clientX:(points[0].x + points[1].x) / 2,
+      clientY:(points[0].y + points[1].y) / 2
+    };
+  }
+
+  function bindPanAndTouch() {
+    mapWrap.addEventListener('pointerdown', event => {
+      pointers.set(event.pointerId, { x:event.clientX, y:event.clientY });
+      mapWrap.setPointerCapture(event.pointerId);
+      if (pointers.size === 1) {
+        panStart = { x:event.clientX, y:event.clientY, viewX:viewState.x, viewY:viewState.y };
+        pinchStart = null;
+      }
+      if (pointers.size === 2) {
+        pinchStart = { distance:pointerDistance(), scale:viewState.scale };
+      }
+    });
+
+    mapWrap.addEventListener('pointermove', event => {
+      if (!pointers.has(event.pointerId)) return;
+      pointers.set(event.pointerId, { x:event.clientX, y:event.clientY });
+
+      if (pointers.size === 2 && pinchStart) {
+        const nextDistance = pointerDistance();
+        if (pinchStart.distance > 0) {
+          const midpoint = pointerMidpoint();
+          const focal = midpoint ? clientToSvgPoint(midpoint.clientX, midpoint.clientY) : { x:W / 2, y:H / 2 };
+          setScaleAt(pinchStart.scale * (nextDistance / pinchStart.distance), focal.x, focal.y);
+        }
+        return;
+      }
+
+      if (pointers.size === 1 && panStart && viewState.scale > 1) {
+        const rect = mapSvg.getBoundingClientRect();
+        const dx = ((event.clientX - panStart.x) / rect.width) * W;
+        const dy = ((event.clientY - panStart.y) / rect.height) * H;
+        viewState.x = panStart.viewX + dx;
+        viewState.y = panStart.viewY + dy;
+        applyViewTransform();
+      }
+    });
+
+    ['pointerup','pointercancel','pointerleave'].forEach(type => {
+      mapWrap.addEventListener(type, event => {
+        pointers.delete(event.pointerId);
+        if (pointers.size < 2) pinchStart = null;
+        if (pointers.size === 0) panStart = null;
+      });
+    });
+  }
+
+  function init() {
+    renderLand();
+    renderGuideLines();
+    renderRoutes();
+    renderNodes();
+    renderTrucks();
+    renderFleetList();
+    renderDetail();
+    updateStats();
+    updateRouteVisibility();
+    updateProgressRoutes();
+    updateTruckPositions();
+    bindFilters();
+    bindZoomControls();
+    bindPanAndTouch();
+    document.querySelector('.popup-close')?.addEventListener('click', () => ui.vehiclePopup?.classList.add('hidden'));
+    applyViewTransform();
+
+    if (!reduceMotion) {
+      window.setInterval(tickFleet, 3200);
+    }
+  }
+
+  init();
+
+  /*
+    Real data hook:
+    Replace tickFleet with your live endpoint.
+
+    Expected shape:
+    [
+      {
+        id: 'IV-024',
+        driver: 'M. Carter',
+        routeId: 'r1',
+        progress: 42,
+        speed: 58,
+        status: 'on-time',
+        load: 'Retail pallets',
+        eta: '2h 15m'
+      }
+    ]
+
+    async function syncFleetFromApi() {
+      const response = await fetch('/api/fleet/live');
+      const liveFleet = await response.json();
+      fleet.splice(0, fleet.length, ...liveFleet);
+      renderFleetList();
+      renderDetail();
+      updateStats();
+      updateRouteVisibility();
+      updateProgressRoutes();
+      updateTruckPositions();
+    }
+
+    setInterval(syncFleetFromApi, 10000);
+  */
+})();
+</script>
+</body>
+</html>

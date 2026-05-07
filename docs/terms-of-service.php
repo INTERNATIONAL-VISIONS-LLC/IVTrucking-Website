@@ -1,0 +1,10 @@
+<?php $page_title='Terms of Service | International Visions LLC'; $page_description='Terms of Service for use of the International Visions LLC website, quote forms, contact forms and online information.'; include 'inc/header.php'; ?>
+<main><section class="page-hero"><div class="container animated in"><span class="eyebrow"><span class="dot"></span> Terms of Service</span><h1>Terms of Service.</h1><p class="lead">These terms apply to use of the International Visions LLC website and online forms.</p></div></section>
+<section class="section"><div class="container legal panel animated">
+<h2>Website information</h2><p>The website provides general information about International Visions LLC, freight services, coverage areas, driver recruiting and contact options. Information may change without notice.</p>
+<h2>Quote requests</h2><p>Submitting a quote or callback request does not create a contract, guarantee service, reserve capacity or confirm pricing. Shipment details must be reviewed and accepted by International Visions LLC before service is confirmed.</p>
+<h2>Driver application links</h2><p>Driver application links may open third-party systems such as IntelliApp or Tenstreet. Those services operate under their own terms and privacy practices.</p>
+<h2>Acceptable use</h2><p>Users may not submit false information, unlawful content, spam, malicious code or messages intended to disrupt the website or company operations.</p>
+<h2>Limitation of liability</h2><p>The website is provided for informational and communication purposes. International Visions LLC is not responsible for losses arising from unavailable website access, third-party services, inaccurate user submissions or reliance on website content without direct company confirmation.</p>
+<h2>Contact</h2><p>Questions about these terms can be sent through the <a href="support.php">general contact form</a>.</p>
+</div></section></main><?php include 'inc/footer.php'; ?>

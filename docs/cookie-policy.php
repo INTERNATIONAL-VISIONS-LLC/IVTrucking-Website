@@ -1,0 +1,9 @@
+<?php $page_title='Cookie Policy | International Visions LLC'; $page_description='Cookie Policy for International Visions LLC explaining website cookies, analytics and visitor controls.'; include 'inc/header.php'; ?>
+<main><section class="page-hero"><div class="container animated in"><span class="eyebrow"><span class="dot"></span> Cookie Policy</span><h1>Cookie Policy.</h1><p class="lead">This policy explains how cookies and similar technologies may be used on the International Visions LLC website.</p></div></section>
+<section class="section"><div class="container legal panel animated">
+<h2>What cookies are</h2><p>Cookies are small files stored by a browser to help websites remember preferences, measure visits and support functionality.</p>
+<h2>How this site may use cookies</h2><p>International Visions LLC may use essential cookies for website operation, analytics cookies for performance measurement, and third-party embedded content cookies when maps, videos, fonts or other services are loaded.</p>
+<h2>Google Analytics</h2><p>If Google Analytics is enabled, it may collect usage data such as page views, device information, approximate location and interaction events. Replace the placeholder analytics ID with the correct company property before launch.</p>
+<h2>Managing cookies</h2><p>You can control or delete cookies through your browser settings. Blocking some cookies may affect embedded maps, analytics or certain website features.</p>
+<h2>Contact</h2><p>Questions can be sent through the <a href="support.php">general contact form</a>.</p>
+</div></section></main><?php include 'inc/footer.php'; ?>
